@@ -1,7 +1,6 @@
 ﻿using BasicWebServer.HTTP;
 using BasicWebServer.Responses;
 using BasicWebServer.Server.Responses;
-using System;
 using System.Runtime.CompilerServices;
 
 namespace BasicWebServer.Controllers
@@ -37,18 +36,20 @@ namespace BasicWebServer.Controllers
 
         protected Response Unauthorized() => new UnauthorizedResponse();
 
-        protected Response NotFound()    => new NotFoundResponse();
+        protected Response NotFound() => new NotFoundResponse();
 
         protected Response Redirect(string location) => new RedirectResponse(location);
 
         protected Response File(string fileName) => new TextFileResponse(fileName);
 
         protected Response View([CallerMemberName] string viewName = "")
-            => new ViewResponse(viewName, GetControllerName());
+            => new ViewResponse(viewName, this.GetControllerName());
+        protected Response View(object model, [CallerMemberName] string viewName = "")
+            => new ViewResponse(viewName, this.GetControllerName(), model);
 
-        private string GetControllerName() 
+        private string GetControllerName()
             => this.GetType().Name
                 .Replace(nameof(Controller), string.Empty);
-        
+
     }
 }

@@ -12,10 +12,6 @@ namespace BasicWebServer.HTTP
         public string this[string name] => this.headers[name].Value;
 
         public void Add(string name, string value) => this.headers[name] = new Header(name, value);
-        //{
-        //    //TODO: var header  = new Header(name, value)
-        //    headers.Add(name, new Header(name, value)); 
-        //}
 
         public bool Contains(string name) => this.headers.ContainsKey(name);
 

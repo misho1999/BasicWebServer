@@ -1,4 +1,5 @@
 ﻿using BasicWebServer.Controllers;
+using BasicWebServer.Demo.Models;
 using BasicWebServer.HTTP;
 using System.Text;
 using System.Web;
@@ -51,14 +52,17 @@ namespace BasicWebServer.Demo.Controllers
 
         public Response HtmlFormPost()
         {
-            StringBuilder sb = new StringBuilder();
+            string name = Request.Form["Name"];
 
-            foreach (var (key, value) in this.Request.Form)
+            string age = Request.Form["Age"];
+
+            var model = new FormViewModel()
             {
-                sb.AppendLine($"{key} - {value}");
-            }
+                Name = name,
+                Age = int.Parse(age)
+            };
 
-            return Text(sb.ToString());
+            return View(model);
         }
 
         public Response Content() => View();
@@ -72,9 +76,9 @@ namespace BasicWebServer.Demo.Controllers
                 .Wait();
 
             return File(HomeController.FileName);
-}
+        }
 
-public Response Cookies()
+        public Response Cookies()
         {
             if (this.Request.Cookies.Any(c => c.Name != BasicWebServer.HTTP.Session.SessionCookieName))
             {
